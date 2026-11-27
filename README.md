@@ -21,7 +21,7 @@ Distributed task queues like Celery need heavy central infrastructure. For edge 
 | Week | Distributed networking | Task execution and reliability | Status |
 |---|---|---|---|
 | 1 | Base asyncio UDP mesh: two instances ping each other | Task serialization with cloudpickle | Done |
-| 2 | Kademlia-style DHT for joining and finding peers | Gossip protocol (CPU/RAM every 5 s) | In progress |
+| 2 | Kademlia-style DHT for joining and finding peers | Gossip protocol (CPU/RAM every 5 s) | Done |
 | Mid-project | Network audit: 10 local nodes discover each other | Serialization check with a math function | Planned |
 | 3 | Route tasks to the lowest-CPU node | Heartbeat monitor and task re-routing | Planned |
 | 4 | Signed messages and TLS | Live `rich` CLI dashboard | Planned |
