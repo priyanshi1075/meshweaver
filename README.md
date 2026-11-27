@@ -77,6 +77,31 @@ python week1/task.py sender 9100
 
 The sender packs a function with `cloudpickle` and sends it over TCP. The receiver rebuilds it, runs it and returns the result (`332833500` for the demo function).
 
+
+## Usage (Week 2)
+
+Start a mesh of nodes, one per terminal. Only the first node is started without a bootstrap. Every other node is given just one existing node's port.
+
+```bash
+python week2/run_node.py 9000
+python week2/run_node.py 9001 --bootstrap 9000
+python week2/run_node.py 9002 --bootstrap 9000
+```
+
+Add `--interval 2` to see gossip updates faster. After about 10 seconds, each node prints the peers it has discovered, along with their CPU and RAM usage:
+
+```
+--- node 9002: knows 2 peers (my cpu 12%, ram 82%) ---
+   port 9000  cpu   13.0%  ram  82.4%  seen 3s ago
+   port 9001  cpu   10.2%  ram  82.8%  seen 9s ago
+```
+
+### How it works
+
+- **DHT discovery:** a new node contacts only its bootstrap node and sends `FIND_NODE`. The reply lists the peers closest to it by XOR distance. The node pings those peers and asks them the same question, until it knows most of the mesh. No peer list is hardcoded.
+- **Gossip:** every 5 seconds each node measures its own CPU and RAM and sends them, plus a sample of known peers, to 3 random neighbours.
+
+
 ## Security notes
 
 - Deserializing task payloads runs code. Later weeks verify an HMAC signature before any payload is unpickled, so only nodes with the shared secret can send tasks. The Week 1 demo does not do this yet, so run it only on your own machine.
@@ -84,3 +109,9 @@ The sender packs a function with `cloudpickle` and sends it over TCP. The receiv
 ## License
 
 MIT
+
+## Known limitations (so far)
+
+- The DHT uses a flat peer table with XOR-distance lookups instead of full k-buckets.
+- UDP messages are not signed or encrypted yet, so run the mesh only on a trusted network. Signing and TLS are planned for Week 4.
+- Dead nodes are not removed yet. They only show a growing "seen ... ago" time. Heartbeat detection and task re-routing are planned for Week 3.
