@@ -34,11 +34,15 @@ meshweaver/
 ├── week1/
 │   ├── ping.py        # two nodes ping each other over UDP (asyncio)
 │   └── task.py        # send a function with cloudpickle and run it remotely
+├── week2/
+│   ├── dht.py         # Kademlia-style peer discovery (XOR distance)
+│   ├── gossip.py      # nodes share CPU/RAM load every 5 seconds
+│   └── run_node.py    # starts one mesh node
 ├── requirements.txt
 └── README.md
 ```
 
-More modules (`dht.py`, `gossip.py`, `heartbeat.py`, `scheduler.py`, `executor.py`, `security.py`, `node.py`, `dashboard.py`) are added as each week is completed.
+More modules ( `heartbeat.py`, `scheduler.py`, `executor.py`, `security.py`, `dashboard.py`) are added as each week is completed.
 
 ## Installation
 
